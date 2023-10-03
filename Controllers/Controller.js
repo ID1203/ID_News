@@ -1,11 +1,9 @@
 
-const { fetchTopics, getAllEndpoints } = require("../Models/Models")
+const { fetchTopics, getAllEndpoints, fetchArticlesById } = require("../Models/Models")
 
 function getTopics(req, res, next){
-    console.log('in controller part 1 ');
     fetchTopics()
     .then((topics) => {
-        console.log('in controller part 2 ')
         res.status(200).send({ topics });
     }).catch((err) => {
         next(err)
@@ -18,5 +16,22 @@ function getEndpoints(req, res, next) {
     res.status(200).json(endpointsObject);
 }
 
-module.exports = { getTopics, getEndpoints }
+function getArticlesByID(req, res, next) {
+    const { article_id } = req.params;
+    fetchArticlesById(article_id)
+    .then((article) => {
+        if (article.length === 0) {
+            const notFoundError = new Error("Article not found");
+            notFoundError.name = "NotFoundError";
+            throw notFoundError;
+        }
+        res.status(200).json(article)
+    })
+    .catch((err) => {
+        next(err)
+    })
+    
+}
+
+module.exports = { getTopics, getEndpoints, getArticlesByID }
 
