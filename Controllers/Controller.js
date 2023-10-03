@@ -1,8 +1,10 @@
 const { fetchTopics, getAllEndpoints } = require("../Models/Models")
 
 function getTopics(req, res, next){
+    console.log('in controller part 1 ');
     fetchTopics()
     .then((topics) => {
+        console.log('in controller part 2 ')
         res.status(200).send({ topics });
     }).catch((err) => {
         next(err)
@@ -11,9 +13,7 @@ function getTopics(req, res, next){
 
 function getEndpoints(req, res, next) {
     const endpointsObject = getAllEndpoints()
-    console.log(endpointsObject.text);
-    res.status(200).send({endpointsObject});
-
+    res.status(200).json(endpointsObject);
 }
 
 module.exports = { getTopics, getEndpoints }
