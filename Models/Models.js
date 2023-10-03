@@ -1,9 +1,18 @@
 const db = require('../db/connection')
 
-function fetchTopics(){
-    return db.query('SELECT * FROM topics;').then((result) => {
-        return result.rows;
-    })
-}   
+const endpoints = require('../endpoints.json')
 
-module.exports = { fetchTopics }   
+    function fetchTopics(){
+        console.log('in model part 1 ')
+        return db.query('SELECT * FROM topics;')
+        .then((result) => {
+            console.log('in controller part 2 ')
+            return result.rows;
+        })
+}   
+function getAllEndpoints(){
+    return endpoints
+}
+
+module.exports = { fetchTopics, getAllEndpoints }   
+
