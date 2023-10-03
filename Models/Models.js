@@ -1,4 +1,5 @@
 const db = require('../db/connection')
+
 const endpoints = require('../endpoints.json')
 
     function fetchTopics(){
@@ -14,3 +15,4 @@ function getAllEndpoints(){
 }
 
 module.exports = { fetchTopics, getAllEndpoints }   
+

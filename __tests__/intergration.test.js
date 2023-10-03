@@ -6,6 +6,7 @@ const db = require('../db/connection')
 const endpointsData = require('../endpoints.json');
 
 
+
 beforeEach(() => {
     return seed(data);
 });
@@ -15,6 +16,7 @@ afterAll(() => db.end());
 describe('/api/topics', () => {
     it('should respond with an array of topic objects ', () => {
         return request(app).get('/api/topics')
+
         .expect(200)
         .then((response) => {
             console.log('Response Body:', response.body); 
@@ -28,6 +30,7 @@ describe('/api/topics', () => {
             })
         })
     });
+
 
     it('should respond not found for invalid endpoint', () => {
         return request(app).get('/api/invalid-endpoint')
@@ -47,3 +50,5 @@ describe('/api', () => {
         })
     });
 });
+})
+

@@ -1,3 +1,4 @@
+
 const { fetchTopics, getAllEndpoints } = require("../Models/Models")
 
 function getTopics(req, res, next){
@@ -11,9 +12,11 @@ function getTopics(req, res, next){
     })
 }
 
+
 function getEndpoints(req, res, next) {
     const endpointsObject = getAllEndpoints()
     res.status(200).json(endpointsObject);
 }
 
 module.exports = { getTopics, getEndpoints }
+
