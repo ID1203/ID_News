@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { getTopics, getEndpoints, getArticlesByID } = require('./Controllers/Controller');
+const { getTopics, getEndpoints, getArticlesByID, getArticles } = require('./Controllers/Controller');
 const erroHandler = require("./Controllers/Error.Controller");
 
 
@@ -12,6 +12,8 @@ app.get('/api', getEndpoints)
 
 app.get('/api/articles/:article_id', getArticlesByID);
 
+app.get('/api/articles', getArticles)
+
 app.use((req, res, next) => {
     const error = new Error('Not Found');
     error.name = 'NotFoundError'
@@ -19,7 +21,12 @@ app.use((req, res, next) => {
     next(error);
 });
 
-app.use(erroHandler) 
+app.use(erroHandler.handlePSQLErrors) 
+
+app.use(erroHandler.handleCustomError) 
+
+app.use(erroHandler.handle500Errors) 
+
     
 
 
