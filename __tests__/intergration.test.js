@@ -43,7 +43,7 @@ describe('/api', () => {
         })
     });
 });
-describe.only('/api/articles/:article_id', () => {
+describe('/api/articles/:article_id', () => {
     it('should return articles', () => {
         return request(app)
         .get('/api/articles/3')
@@ -72,7 +72,7 @@ describe.only('/api/articles/:article_id', () => {
     });
     it('GET:400 sends an appropriate status and error message when ivalid id is given', () => {
         return request(app)
-        .get('/api/articles/banna')
+        .get('/api/articles/banana')
         .expect(400)
         .then((response) => {
             expect(response.body.msg).toBe('Bad Request');
@@ -86,11 +86,17 @@ describe('/api/articles', () => {
         .expect(200)
         .then((response) => {
             expect(Array.isArray(response.body))
+            expect(new Date(response.body.articles[0].created_at).getTime()).toBeGreaterThan(new Date(response.body.articles[5].created_at).getTime())
             response.body.articles.forEach((article) => {
-                expect(topic.hasOwnProperty('slug')).toBe(true)
-                expect(typeof topic.slug).toBe('string')
-                expect(topic.hasOwnProperty('description')).toBe(true)
-                expect(typeof topic.description).toBe('string')
+                expect(article).toHaveProperty('author');
+                expect(article).toHaveProperty('title');
+                expect(article).toHaveProperty('article_id');
+                expect(article).toHaveProperty('topic');
+                expect(article).toHaveProperty('created_at');
+                expect(article).toHaveProperty('votes');
+                expect(article).toHaveProperty('article_img_url');
+                expect(article).toHaveProperty('comment_count');
+                expect(article).not.toHaveProperty('body');
             })
         })
     });

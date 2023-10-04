@@ -25,7 +25,6 @@ function fetchArticlesById(article_id){
 }
 
 function fetchAllArticles(){
-    console.log('in model 1');
     const getQuery = `SELECT 
     articles.article_id,
     articles.title, 
@@ -41,7 +40,6 @@ function fetchAllArticles(){
     ORDER BY articles.created_at DESC`
     return db.query(getQuery)
     .then((result) => {
-        console.log('in conroller 2');
         return result.rows;
     })
 }   

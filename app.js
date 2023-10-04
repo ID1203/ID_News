@@ -14,11 +14,8 @@ app.get('/api/articles/:article_id', getArticlesByID);
 
 app.get('/api/articles', getArticles)
 
-app.use((req, res, next) => {
-    const error = new Error('Not Found');
-    error.name = 'NotFoundError'
-    error.status = 404;
-    next(error);
+app.all('/*', (req, res, next) => {
+    return res.status(404).send({ msg: "Not Found" });
 });
 
 app.use(erroHandler.handlePSQLErrors) 
