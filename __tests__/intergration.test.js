@@ -68,3 +68,12 @@ describe('/api/articles/:article_id', () => {
 })
 
 
+// describe('POST /api/articles/:article_id/comments', () => {
+//     it.only('should return comment with data provided in body ', () => {
+//         return request(app).post('/api/articles/6/comments')
+//         .send({ username: 'Isaac', body: 'yay it worked' })
+//         .then((response) => {
+//             console.log(response.body);
+//         })
+//     });
+// })

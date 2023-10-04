@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { getTopics, getEndpoints, getArticlesByID } = require('./Controllers/Controller');
+const { getTopics, getEndpoints, getArticlesByID, postArticleComments } = require('./Controllers/Controller');
 const erroHandler = require("./Controllers/Error.Controller");
 
 
@@ -11,6 +11,8 @@ app.get('/api/topics', getTopics)
 app.get('/api', getEndpoints)
 
 app.get('/api/articles/:article_id', getArticlesByID);
+
+app.post('/api/articles/:article_id/comments', postArticleComments)
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');

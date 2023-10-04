@@ -1,5 +1,5 @@
 
-const { fetchTopics, getAllEndpoints, fetchArticlesById } = require("../Models/Models")
+const { fetchTopics, getAllEndpoints, fetchArticlesById, insertIntoComments } = require("../Models/Models")
 
 function getTopics(req, res, next){
     fetchTopics()
@@ -33,5 +33,14 @@ function getArticlesByID(req, res, next) {
     
 }
 
-module.exports = { getTopics, getEndpoints, getArticlesByID }
+function postArticleComments(req, res, next) {
+    const { article_id } = req.params
+    const { username, body } = req.body
+    insertIntoComments(article_id, username, body)
+    .then((result) => {
+        res.status(200).json(result)
+    })
+}
+
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments }
 

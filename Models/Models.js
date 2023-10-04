@@ -21,7 +21,16 @@ function fetchArticlesById(article_id){
     })
 }
 
+function insertIntoComments(article_id, username, body){
+    
+    db.query('INSERT INTO comments (username, body) VALUES ($1, $2) RETURNING *;', [username, body])
+    .then((result) => {
+        console.log('hello');
+        return result.rows[0]
+    })
+}
 
 
-module.exports = { fetchTopics, getAllEndpoints, fetchArticlesById }   
+
+module.exports = { fetchTopics, getAllEndpoints, fetchArticlesById, insertIntoComments }   
 
