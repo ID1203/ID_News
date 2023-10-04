@@ -2,18 +2,18 @@ const db = require('../db/connection')
 
 const endpoints = require('../endpoints.json')
 
-function fetchTopics(){
+exports.fetchTopics = () => {
     return db.query('SELECT * FROM topics;')
     .then((result) => {
         return result.rows;
     })
 }   
 
-function getAllEndpoints(){
+exports.getAllEndpoints = () => {
     return endpoints
 }
 
-function fetchArticlesById(article_id){
+exports.fetchArticlesById = (article_id) => {
     return db.query('SELECT * FROM articles WHERE articles.article_id = $1;', 
     [article_id])
     .then((result) => {
@@ -21,7 +21,9 @@ function fetchArticlesById(article_id){
     })
 }
 
-
-
-module.exports = { fetchTopics, getAllEndpoints, fetchArticlesById }   
-
+exports.festchArticleCommentsById = (article_id) => {
+    return db.query('SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at DESC;', [article_id])
+    .then((result) => {
+        return result.rows
+    })
+}

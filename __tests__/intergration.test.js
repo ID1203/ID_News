@@ -66,5 +66,38 @@ describe('/api/articles/:article_id', () => {
         });
     });
 })
-
+describe('/api/articles/:article_id/comments', () => {
+    it('should return comments of article based on id', () => {
+        return request(app).get('/api/articles/1/comments')
+        .expect(200)
+        .then((response) => {
+            console.log(response.body);
+            expect(Array.isArray(response.body))
+            response.body.forEach((comment) => {
+                expect(comment.hasOwnProperty('comment_id')).toBe(true)
+                expect(comment.hasOwnProperty('body')).toBe(true)
+                expect(comment.hasOwnProperty('article_id')).toBe(true)
+                expect(comment.hasOwnProperty('author')).toBe(true)
+                expect(comment.hasOwnProperty('votes')).toBe(true)
+                expect(comment.hasOwnProperty('created_at')).toBe(true)
+            })
+        })
+    });
+    // it('GET:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+    //     return request(app)
+    //     .get('/api/articles/300000/comments')
+    //     .expect(404)
+    //     .then((response) => {
+    //         expect(response.body.msg).toBe('Not Found');
+    //     });
+    // });
+    // it('GET:400 sends an appropriate status and error message when given invalid id', () => {
+    //     return request(app)
+    //     .get('/api/articles/banana/comments')
+    //     .expect(400)
+    //     .then((response) => {
+    //         expect(response.body.msg).toBe('Bad Request');
+    //     });
+    // });
+})
 
