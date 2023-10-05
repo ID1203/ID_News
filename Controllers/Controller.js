@@ -1,8 +1,8 @@
+const model = require("../Models/Models")
 
-const { fetchTopics, getAllEndpoints, fetchArticlesById, insertIntoComments } = require("../Models/Models")
 
 function getTopics(req, res, next){
-    fetchTopics()
+    model.fetchTopics()
     .then((topics) => {
         res.status(200).send({ topics });
     }).catch((err) => {
@@ -11,31 +11,46 @@ function getTopics(req, res, next){
 }
 
 function getEndpoints(req, res, next) {
-    const endpointsObject = getAllEndpoints()
+    const endpointsObject = model.getAllEndpoints()
     res.status(200).json(endpointsObject);
+}
+
+function getArticles(req, res, next){
+    model.fetchAllArticles()
+    .then((articles) => {
+        res.status(200).send({ articles });
+    })
+    .catch((err) => {
+        next(err)
+    })
 }
 
 function getArticlesByID(req, res, next) {
     const { article_id } = req.params;
-    fetchArticlesById(article_id)
+    model.fetchArticlesById(article_id)
     .then((article) => {
-        if (article.length === 0) {
-            const notFoundError = new Error("Article not found");
-            notFoundError.name = "NotFoundError";
-            throw notFoundError;
-        }
         res.status(200).json(article)
     })
     .catch((err) => {
         next(err)
     })
-    
+}
+function getArticleCommentsById(req, res, next){
+    const { article_id } = req.params;
+    model.fetchArticlesById(article_id).then(() => {
+        return model.festchArticleCommentsById(article_id)
+    }).then((comment) => {
+        res.status(200).json(comment)
+    })
+    .catch((err) => {
+        next(err)
+    })
 }
 
 function postArticleComments(req, res, next) {
     const { article_id } = req.params
     const { username, body } = req.body
-    insertIntoComments(article_id, username, body)
+    model.insertIntoComments(article_id, username, body)
     .then((result) => {
         res.status(201).send(result)
     }).catch((err) => {
@@ -43,5 +58,6 @@ function postArticleComments(req, res, next) {
     })
 }
 
-module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments }
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticleCommentsById }
+
 
