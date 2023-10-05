@@ -151,7 +151,7 @@ describe('/api/articles', () => {
 })      
 
 
-describe.only('POST /api/articles/:article_id/comments', () => {
+describe('POST /api/articles/:article_id/comments', () => {
     it('should return comment with data provided in body ', () => {
         const comment = { username: 'butter_bridge', body: 'yay it worked' }
         return request(app).post('/api/articles/1/comments')
@@ -205,5 +205,18 @@ describe.only('POST /api/articles/:article_id/comments', () => {
         .then((response) => {
             expect(response.body.msg).toBe('username not found');
         });
+    });
+})
+describe('PATCH /api/articles/:article_id', () => {
+    it.only('should return comment with data provided in body ', () => {
+        const newVote = { incVote: 1}
+        return request(app).patch('/api/articles/3')
+        .send(newVote)
+        .expect(201)
+        .then((response) => {
+            console.log(response.body);
+            expect(response.body).toHaveProperty('votes')
+            
+        })
     });
 })
