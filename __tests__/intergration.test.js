@@ -80,21 +80,21 @@ describe('/api/articles/:article_id/comments', () => {
             })
         })
     });
-//     it('GET:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
-//         return request(app)
-//         .get('/api/articles/300000/comments')
-//         .expect(404)
-//         .then((response) => {
-//             expect(response.body.msg).toBe('Not Found');
-//         });
-//     });
-//     it('GET:400 sends an appropriate status and error message when given invalid id', () => {
-//         return request(app)
-//         .get('/api/articles/banana/comments')
-//         .expect(400)
-//         .then((response) => {
-//             expect(response.body.msg).toBe('Bad Request');
-//         });
-//     });
+    // it('GET:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+    //     return request(app)
+    //     .get('/api/articles/300000/comments')
+    //     .expect(404)
+    //     .then((response) => {
+    //         expect(response.body.msg).toBe('Not Found');
+    //     });
+    // });
+    // it('GET:400 sends an appropriate status and error message when given invalid id', () => {
+    //     return request(app)
+    //     .get('/api/articles/banana/comments')
+    //     .expect(400)
+    //     .then((response) => {
+    //         expect(response.body.msg).toBe('Bad Request');
+    //     });
+    // });
 })
 
