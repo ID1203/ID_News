@@ -22,11 +22,9 @@ function fetchArticlesById(article_id){
 }
 
 function insertIntoComments(article_id, username, body){
-    
-    return db.query('SELECT * FROM comments WHERE articles.article_id = $1;', 
-    [article_id], () => {
-        return db.query(`INSERT INTO comments (username, body) VALUES (1$, 2$) RETURNING *; `,
-        [username, body])
+    return db.query(`INSERT INTO comments (username, body) VALUES (1$, 2$) RETURNING *; `,
+    [username, body]).then((result) => {
+        return result.rows
     })
 }
 
