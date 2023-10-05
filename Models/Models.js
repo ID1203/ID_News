@@ -30,3 +30,24 @@ exports.festchArticleCommentsById = (article_id) => {
         return result.rows
     })
 }
+exports.fetchAllArticles = () => {
+    const getQuery = `SELECT 
+    articles.article_id,
+    articles.title, 
+    articles.created_at, 
+    articles.votes, 
+    articles.article_img_url, 
+    articles.topic, 
+    articles.author, 
+    COUNT(comments.comment_id) AS comment_count
+    FROM articles
+    LEFT JOIN comments ON articles.article_id = comments.article_id
+    GROUP BY articles.article_id
+    ORDER BY articles.created_at DESC`
+    return db.query(getQuery)
+    .then((result) => {
+        return result.rows;
+    })
+}   
+
+
