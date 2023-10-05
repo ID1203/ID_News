@@ -10,7 +10,6 @@ function getTopics(req, res, next){
     })
 }
 
-
 function getEndpoints(req, res, next) {
     const endpointsObject = getAllEndpoints()
     res.status(200).json(endpointsObject);
@@ -36,12 +35,11 @@ function getArticlesByID(req, res, next) {
 function postArticleComments(req, res, next) {
     const { article_id } = req.params
     const { username, body } = req.body
-    fetchArticlesCommentsById(article_id).then((result) => {
-        return result 
-    })
-    insertIntoComments(username, body)
+    insertIntoComments(article_id, username, body)
     .then((result) => {
-        res.status(200).send(result)
+        res.status(201).send(result)
+    }).catch((err) => {
+        next(err)
     })
 }
 
