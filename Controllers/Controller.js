@@ -36,10 +36,10 @@ function getArticlesByID(req, res, next) {
 function postArticleComments(req, res, next) {
     const { article_id } = req.params
     const { username, body } = req.body
-    fetchArticlesById(article_id).then((result) => {
-        
+    fetchArticlesCommentsById(article_id).then((result) => {
+        return result 
     })
-    insertIntoComments(article_id, username, body)
+    insertIntoComments(username, body)
     .then((result) => {
         res.status(200).send(result)
     })
