@@ -1,5 +1,6 @@
 const model = require("../Models/Models")
 
+
 function getTopics(req, res, next){
     model.fetchTopics()
     .then((topics) => {
@@ -46,6 +47,17 @@ function getArticleCommentsById(req, res, next){
     })
 }
 
-module.exports = { getTopics, getEndpoints, getArticlesByID, getArticles, getArticleCommentsById }
+function postArticleComments(req, res, next) {
+    const { article_id } = req.params
+    const { username, body } = req.body
+    model.insertIntoComments(article_id, username, body)
+    .then((result) => {
+        res.status(201).send(result)
+    }).catch((err) => {
+        next(err)
+    })
+}
+
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticleCommentsById }
 
 

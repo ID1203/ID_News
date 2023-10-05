@@ -151,3 +151,20 @@ describe('/api/articles', () => {
 })      
 
 
+describe('POST /api/articles/:article_id/comments', () => {
+    it('should return comment with data provided in body ', () => {
+        const comment = { username: 'butter_bridge', body: 'yay it worked' }
+        return request(app).post('/api/articles/1/comments')
+        .send(comment)
+        .expect(201)
+        .then((response) => {
+            console.log(response.body);
+            expect(response.body).toHaveProperty('comment_id')
+            expect(response.body).toHaveProperty('author', comment.username)
+            expect(response.body).toHaveProperty('article_id')
+            expect(response.body).toHaveProperty('body', comment.body)
+            expect(response.body).toHaveProperty('created_at')
+
+        })
+    });
+})

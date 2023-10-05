@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const { getTopics, getEndpoints, getArticlesByID, getArticles, getArticleCommentsById } = require('./Controllers/Controller');
+const { getTopics, getEndpoints, getArticlesByID, getArticles, getArticleCommentsById, postArticleComments } = require('./Controllers/Controller');
 
 const erroHandler = require("./Controllers/Error.Controller");
 
@@ -13,6 +13,8 @@ app.get('/api/topics', getTopics)
 app.get('/api', getEndpoints)
 
 app.get('/api/articles/:article_id', getArticlesByID);
+
+app.post('/api/articles/:article_id/comments', postArticleComments)
 
 app.get('/api/articles/:article_id/comments', getArticleCommentsById)
 
