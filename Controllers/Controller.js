@@ -33,8 +33,9 @@ function getArticlesByID(req, res, next) {
 }
 function getArticleCommentsById(req, res, next){
     const { article_id } = req.params;
-    model.festchArticleCommentsById(article_id)
-    .then((comment) => {
+    model.fetchArticlesById(article_id).then(() => {
+        return model.festchArticleCommentsById(article_id)
+    }).then((comment) => {
         res.status(200).json(comment)
     })
     .catch((err) => {
