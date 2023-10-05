@@ -151,7 +151,7 @@ describe('/api/articles', () => {
 })      
 
 
-describe('POST /api/articles/:article_id/comments', () => {
+describe.only('POST /api/articles/:article_id/comments', () => {
     it('should return comment with data provided in body ', () => {
         const comment = { username: 'butter_bridge', body: 'yay it worked' }
         return request(app).post('/api/articles/1/comments')
@@ -164,7 +164,46 @@ describe('POST /api/articles/:article_id/comments', () => {
             expect(response.body).toHaveProperty('article_id')
             expect(response.body).toHaveProperty('body', comment.body)
             expect(response.body).toHaveProperty('created_at')
-
         })
+    });
+    xit('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+        const comment = { username: 'butter_bridge', body: 'yay it worked' }
+        return request(app)
+        .post('/api/articles/10000/comments')
+        .send(comment)
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found');
+        });
+    });
+    it('POST:404 sends an appropriate status and error message when given no id', () => {
+        const comment = { username: 'butter_bridge', body: 'yay it worked' }
+        return request(app)
+        .post('/api/articles//comments')
+        .send(comment)
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found');
+        });
+    });
+    it('POST:400 sends an appropriate status and error message when given invalid id', () => {
+        const comment = { username: 'butter_bridge', body: 'yay it worked' }
+        return request(app)
+        .post('/api/articles/banana/comments')
+        .send(comment)
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe('Bad Request');
+        });
+    });
+    it('POST:400 sends an appropriate status and error message when given invalid username', () => {
+        const comment = { username: 'Isaac', body: 'yay it worked' }
+        return request(app)
+        .post('/api/articles/1/comments')
+        .send(comment)
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('username not found');
+        });
     });
 })

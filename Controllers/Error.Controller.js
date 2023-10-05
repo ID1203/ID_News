@@ -1,7 +1,12 @@
 exports.handlePSQLErrors = (err, req, res, next) => {
+    console.log(err.code);
     if(err.code === '22P02'){
         return res.status(400).send({ msg: "Bad Request" });
-    }else{
+    }
+    else if (err.code === '23503'){
+        return res.status(404).send({ msg: "username not found" });
+    }
+    else{
         next(err)
     }
 }

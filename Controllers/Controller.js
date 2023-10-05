@@ -1,4 +1,5 @@
-const model = require("../Models/Models")
+const model = require("../Models/Models");
+const { response } = require("../app");
 
 
 function getTopics(req, res, next){
@@ -58,6 +59,6 @@ function postArticleComments(req, res, next) {
     })
 }
 
-module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticleCommentsById }
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById }
 
 
