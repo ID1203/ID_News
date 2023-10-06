@@ -211,6 +211,28 @@ describe('POST /api/articles/:article_id/comments', () => {
 })
 
 
+describe('DELETE /api/comments/:comment_id', () => {
+    it('should delete artciles by id ', () => {
+        return request(app)
+        .delete('/api/comments/3')
+        .then((response) => {
+            expect(response.status).toBe(204);
+        });
+        
+    });
+    it('DELETE:400 sends an appropriate status and error message when given invalid id', () => {
+        return request(app)
+        .delete('/api/comments/banana')
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe('Bad Request');
+        });
+    });
+    it('DELETE:400 sends an appropriate status and error message when given invalid id', () => {
+        return request(app)
+        .delete('/api/comments/9999')
+
+
 describe.only('PATCH /api/articles/:article_id', () => {
     it('should return comment with data provided in body ', () => {
         const newVote = { incVote: 1}
@@ -244,16 +266,24 @@ describe.only('PATCH /api/articles/:article_id', () => {
             expect(response.body.msg).toBe('Not Found');
         });
     });
+
+    it('DELETE:400 sends an appropriate status and error message when given no id', () => {
+        return request(app)
+        .delete('/api/comments/')
+
     it('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
         const newVote = { incVote: 1}
         return request(app)
         .patch('/api/articles/10000/comments')
         .send(newVote)
+
         .expect(404)
         .then((response) => {
             expect(response.body.msg).toBe('Not Found');
         });
     });
+})
+
 })
 
 describe('/api/users', () => {

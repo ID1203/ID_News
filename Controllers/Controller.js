@@ -59,6 +59,16 @@ function postArticleComments(req, res, next) {
     })
 }
 
+function deleteComment(req, res, next){
+    const { comment_id } = req.params
+   model.deleteCommentById(comment_id)
+   .then(() => {
+    res.status(204).send();
+   })
+   .catch((err) => {
+    next(err)
+   })
+}
 
 function patchArticlebyId(req, res, next){
     const { article_id } = req.params
@@ -81,7 +91,7 @@ function getUsers(req, res, next){
 }
 
 
-module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById, patchArticlebyId, getUsers }
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById, patchArticlebyId, getUsers, deleteComment }
 
 
 
