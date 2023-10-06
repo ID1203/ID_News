@@ -62,6 +62,17 @@ describe('/api/articles/:article_id', () => {
             
         })
     });
+    it('should return articles', () => {
+        return request(app)
+        .get('/api/articles/3')
+        .expect(200)
+        .then((response) => {
+            response.body.forEach((article) => {
+                expect(article.comment_count).toBe("2")
+            })
+            
+        })
+    });
     it('GET:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
         return request(app)
         .get('/api/articles/300000')
