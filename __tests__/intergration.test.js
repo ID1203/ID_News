@@ -158,15 +158,17 @@ describe('POST /api/articles/:article_id/comments', () => {
         .send(comment)
         .expect(201)
         .then((response) => {
-            console.log(response.body);
             expect(response.body).toHaveProperty('comment_id')
+            expect(typeof response.body.comment_id).toBe('number')
             expect(response.body).toHaveProperty('author', comment.username)
             expect(response.body).toHaveProperty('article_id')
+            expect(typeof response.body.article_id).toBe('number')
             expect(response.body).toHaveProperty('body', comment.body)
             expect(response.body).toHaveProperty('created_at')
+            expect(typeof response.body.created_at).toBe('string')
         })
     });
-    xit('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+    it('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
         const comment = { username: 'butter_bridge', body: 'yay it worked' }
         return request(app)
         .post('/api/articles/10000/comments')
@@ -203,7 +205,7 @@ describe('POST /api/articles/:article_id/comments', () => {
         .send(comment)
         .expect(404)
         .then((response) => {
-            expect(response.body.msg).toBe('username not found');
+            expect(response.body.msg).toBe('Not Found');
         });
     });
 })
@@ -253,3 +255,31 @@ describe.only('PATCH /api/articles/:article_id', () => {
         });
     });
 })
+
+describe('/api/users', () => {
+    it('should respond with an array of topic objects ', () => {
+        return request(app).get('/api/users')
+        .expect(200)
+        .then((response) => {
+            expect(Array.isArray(response.body))
+            expect(response.body.users.length).toBe(4)
+            response.body.users.forEach((user) => {
+                expect(user.hasOwnProperty('username')).toBe(true)
+                expect(typeof user.username).toBe('string')
+                expect(user.hasOwnProperty('name')).toBe(true)
+                expect(typeof user.name).toBe('string')
+                expect(user.hasOwnProperty('avatar_url')).toBe(true)
+                expect(typeof user.avatar_url).toBe('string')
+            })
+        })
+    });
+
+    it('should respond not found for invalid endpoint', () => {
+        return request(app).get('/api/invalid-endpoint')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found')
+        })
+    });
+})
+     

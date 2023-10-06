@@ -8,7 +8,8 @@ const {
     getArticles, 
     getArticleCommentsById,
     postArticleComments, 
-    patchArticlebyId 
+    patchArticlebyId,
+    getUsers
 } = require('./Controllers/Controller');
 
 const erroHandler = require("./Controllers/Error.Controller");
@@ -29,6 +30,8 @@ app.get('/api/articles/:article_id/comments', getArticleCommentsById)
 app.get('/api/articles', getArticles)
 
 app.patch('/api/articles/:article_id', patchArticlebyId )
+
+app.get('/api/users', getUsers)
 
 app.all('/*', (req, res, next) => {
     return res.status(404).send({ msg: "Not Found" });
