@@ -141,13 +141,6 @@ describe('/api/articles', () => {
             })
         })
     });
-    // it('should respond with all articles ', () => {
-    //     return request(app).get('/api/articles/mitch')
-    //     .expect(200)
-    //     .then((response) => {
-    //         console.log(response)
-    // })
-
     it('should respond not found for invalid endpoint', () => {
         return request(app).get('/api/invalid-endpoint')
         .expect(404)
@@ -155,6 +148,31 @@ describe('/api/articles', () => {
             expect(response.body.msg).toBe('Not Found')
         })
     });
+    it('should respond with all articles based on topic given in query ', () => {
+        return request(app).get('/api/articles').query({ topic: 'mitch' })
+        .expect(200)
+        .then((response) => {
+            response.body.articles.forEach((article) => {
+                expect(article).toHaveProperty('author');
+                expect(article).toHaveProperty('title');
+                expect(article).toHaveProperty('article_id');
+                expect(article).toHaveProperty('topic');
+                expect(article).toHaveProperty('created_at');
+                expect(article).toHaveProperty('votes');
+                expect(article).toHaveProperty('article_img_url');
+                expect(article).toHaveProperty('body');
+            })
+            
+        })
+    })
+    it('should respond not found when passed invalid topic ', () => {
+        return request(app).get('/api/articles').query({ topic: 'Isaac' })
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found')
+        })
+    })
+
 })      
 
 

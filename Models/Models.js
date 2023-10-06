@@ -42,11 +42,13 @@ exports.festchArticleCommentsById = (article_id) => {
     })
 }
 exports.fetchAllArticles = (topic) => {
-
     if(topic){
         return db.query('SELECT * FROM articles WHERE topic = $1;',
         [topic])
         .then((result) => {
+            if (result.rows.length === 0) {
+                return Promise.reject({ status: 404, msg: "Not Found" })
+            }
         return result.rows;
         })
     }
