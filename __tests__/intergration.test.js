@@ -210,10 +210,37 @@ describe('POST /api/articles/:article_id/comments', () => {
     });
 })
 
-
-//         expect(typeof comments[0].comment_id).toBe('number');
-//         expect(typeof comments[0].votes).toBe('number');
-//         expect(typeof comments[0].created_at).toBe('string');
-//         expect(typeof comments[0].author).toBe('string');
-//         expect(typeof comments[0].body).toBe('string');
-//         expect(typeof comments[0].article_id).toBe('number');
+describe('DELETE /api/comments/:comment_id', () => {
+    it('should delete artciles by id ', () => {
+        return request(app)
+        .delete('/api/comments/3')
+        .then((response) => {
+            expect(response.status).toBe(204);
+        });
+        
+    });
+    it('DELETE:400 sends an appropriate status and error message when given invalid id', () => {
+        return request(app)
+        .delete('/api/comments/banana')
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe('Bad Request');
+        });
+    });
+    it('DELETE:400 sends an appropriate status and error message when given invalid id', () => {
+        return request(app)
+        .delete('/api/comments/9999')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found');
+        });
+    });
+    it('DELETE:400 sends an appropriate status and error message when given no id', () => {
+        return request(app)
+        .delete('/api/comments/')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found');
+        });
+    });
+})
