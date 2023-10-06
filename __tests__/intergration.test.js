@@ -151,22 +151,24 @@ describe('/api/articles', () => {
 })      
 
 
-describe.only('POST /api/articles/:article_id/comments', () => {
+describe('POST /api/articles/:article_id/comments', () => {
     it('should return comment with data provided in body ', () => {
         const comment = { username: 'butter_bridge', body: 'yay it worked' }
         return request(app).post('/api/articles/1/comments')
         .send(comment)
         .expect(201)
         .then((response) => {
-            console.log(response.body);
             expect(response.body).toHaveProperty('comment_id')
+            expect(typeof response.body.comment_id).toBe('number')
             expect(response.body).toHaveProperty('author', comment.username)
             expect(response.body).toHaveProperty('article_id')
+            expect(typeof response.body.article_id).toBe('number')
             expect(response.body).toHaveProperty('body', comment.body)
             expect(response.body).toHaveProperty('created_at')
+            expect(typeof response.body.created_at).toBe('string')
         })
     });
-    xit('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+    it('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
         const comment = { username: 'butter_bridge', body: 'yay it worked' }
         return request(app)
         .post('/api/articles/10000/comments')
@@ -203,7 +205,15 @@ describe.only('POST /api/articles/:article_id/comments', () => {
         .send(comment)
         .expect(404)
         .then((response) => {
-            expect(response.body.msg).toBe('username not found');
+            expect(response.body.msg).toBe('Not Found');
         });
     });
 })
+
+
+//         expect(typeof comments[0].comment_id).toBe('number');
+//         expect(typeof comments[0].votes).toBe('number');
+//         expect(typeof comments[0].created_at).toBe('string');
+//         expect(typeof comments[0].author).toBe('string');
+//         expect(typeof comments[0].body).toBe('string');
+//         expect(typeof comments[0].article_id).toBe('number');
