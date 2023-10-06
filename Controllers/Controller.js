@@ -66,6 +66,8 @@ function patchArticlebyId(req, res, next){
     model.updateArticles(newVotes, article_id)
     .then((result) => {
         res.status(201).send(result)
+    }).catch((err) => {
+        next(err)
     })
 }
 

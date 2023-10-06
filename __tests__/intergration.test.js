@@ -207,8 +207,10 @@ describe('POST /api/articles/:article_id/comments', () => {
         });
     });
 })
+
+
 describe('PATCH /api/articles/:article_id', () => {
-    it.only('should return comment with data provided in body ', () => {
+    it('should return comment with data provided in body ', () => {
         const newVote = { incVote: 1}
         return request(app).patch('/api/articles/3')
         .send(newVote)
@@ -218,5 +220,36 @@ describe('PATCH /api/articles/:article_id', () => {
             expect(response.body).toHaveProperty('votes')
             
         })
+    });
+    it('should return comment with data provided in body ', () => {
+        const newVote = { incVote: 1}
+        return request(app)
+        .patch('/api/articles/banana')
+        .send(newVote)
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe('Bad Request');
+            
+        })
+    });
+    it('POST:404 sends an appropriate status and error message when given no id', () => {
+        const newVote = { incVote: 1}
+        return request(app)
+        .patch('/api/articles/')
+        .send(newVote)
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found');
+        });
+    });
+    it('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+        const newVote = { incVote: 1}
+        return request(app)
+        .patch('/api/articles/10000/comments')
+        .send(newVote)
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found');
+        });
     });
 })
