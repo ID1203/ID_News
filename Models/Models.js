@@ -61,3 +61,10 @@ exports.fetchAllArticles = () => {
     })
 }   
 
+exports.fetchusers = () => {
+    return db.query('SELECT * FROM users;')
+    .then((result) => {
+        return result.rows;
+    })
+}
+

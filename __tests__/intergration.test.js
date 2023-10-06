@@ -210,10 +210,29 @@ describe('POST /api/articles/:article_id/comments', () => {
     });
 })
 
+describe.only('/api/users', () => {
+    it('should respond with an array of topic objects ', () => {
+        return request(app).get('/api/users')
+        .expect(200)
+        .then((response) => {
+            expect(Array.isArray(response.body))
+            expect(response.body.users.length).toBe(4)
+            response.body.users.forEach((user) => {
+                expect(user.hasOwnProperty('username')).toBe(true)
+                expect(typeof user.username).toBe('string')
+                expect(user.hasOwnProperty('name')).toBe(true)
+                expect(typeof user.name).toBe('string')
+                expect(user.hasOwnProperty('avatar_url')).toBe(true)
+                expect(typeof user.avatar_url).toBe('string')
+            })
+        })
+    });
 
-//         expect(typeof comments[0].comment_id).toBe('number');
-//         expect(typeof comments[0].votes).toBe('number');
-//         expect(typeof comments[0].created_at).toBe('string');
-//         expect(typeof comments[0].author).toBe('string');
-//         expect(typeof comments[0].body).toBe('string');
-//         expect(typeof comments[0].article_id).toBe('number');
+    it('should respond not found for invalid endpoint', () => {
+        return request(app).get('/api/invalid-endpoint')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found')
+        })
+    });
+})      

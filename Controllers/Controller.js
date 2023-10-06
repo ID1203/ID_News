@@ -59,6 +59,15 @@ function postArticleComments(req, res, next) {
     })
 }
 
-module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById }
+function getUsers(req, res, next){
+    model.fetchusers()
+    .then((users) => {
+        res.status(200).send({ users });
+    }).catch((err) => {
+        next(err)
+    })
+}
+
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById, getUsers }
 
 
