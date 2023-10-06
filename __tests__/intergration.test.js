@@ -210,6 +210,7 @@ describe('POST /api/articles/:article_id/comments', () => {
     });
 })
 
+
 describe('DELETE /api/comments/:comment_id', () => {
     it('should delete artciles by id ', () => {
         return request(app)
@@ -230,17 +231,85 @@ describe('DELETE /api/comments/:comment_id', () => {
     it('DELETE:400 sends an appropriate status and error message when given invalid id', () => {
         return request(app)
         .delete('/api/comments/9999')
+
+
+describe.only('PATCH /api/articles/:article_id', () => {
+    it('should return comment with data provided in body ', () => {
+        const newVote = { incVote: 1}
+        return request(app).patch('/api/articles/3')
+        .send(newVote)
+        .expect(201)
+        .then((response) => {
+            console.log(response.body);
+            expect(response.body).toHaveProperty('votes', 1)
+            expect(response.body).toHaveProperty('article_id', 3)
+        })
+    });
+    it('should return comment with data provided in body ', () => {
+        const newVote = { incVote: 1}
+        return request(app)
+        .patch('/api/articles/banana')
+        .send(newVote)
+        .expect(400)
+        .then((response) => {
+            expect(response.body.msg).toBe('Bad Request');
+            
+        })
+    });
+    it('POST:404 sends an appropriate status and error message when given no id', () => {
+        const newVote = { incVote: 1}
+        return request(app)
+        .patch('/api/articles/')
+        .send(newVote)
         .expect(404)
         .then((response) => {
             expect(response.body.msg).toBe('Not Found');
         });
     });
+
     it('DELETE:400 sends an appropriate status and error message when given no id', () => {
         return request(app)
         .delete('/api/comments/')
+
+    it('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+        const newVote = { incVote: 1}
+        return request(app)
+        .patch('/api/articles/10000/comments')
+        .send(newVote)
+
         .expect(404)
         .then((response) => {
             expect(response.body.msg).toBe('Not Found');
         });
     });
 })
+
+})
+
+describe('/api/users', () => {
+    it('should respond with an array of topic objects ', () => {
+        return request(app).get('/api/users')
+        .expect(200)
+        .then((response) => {
+            expect(Array.isArray(response.body))
+            expect(response.body.users.length).toBe(4)
+            response.body.users.forEach((user) => {
+                expect(user.hasOwnProperty('username')).toBe(true)
+                expect(typeof user.username).toBe('string')
+                expect(user.hasOwnProperty('name')).toBe(true)
+                expect(typeof user.name).toBe('string')
+                expect(user.hasOwnProperty('avatar_url')).toBe(true)
+                expect(typeof user.avatar_url).toBe('string')
+            })
+        })
+    });
+
+    it('should respond not found for invalid endpoint', () => {
+        return request(app).get('/api/invalid-endpoint')
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found')
+        })
+    });
+})
+     
