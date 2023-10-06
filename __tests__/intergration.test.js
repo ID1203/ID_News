@@ -141,6 +141,13 @@ describe('/api/articles', () => {
             })
         })
     });
+    it('should respond with all articles ', () => {
+        return request(app).get('/api/articles/mitch')
+        .expect(200)
+        .then((response) => {
+            console.log(response)
+    })
+    });
     it('should respond not found for invalid endpoint', () => {
         return request(app).get('/api/invalid-endpoint')
         .expect(404)
@@ -210,7 +217,7 @@ describe('POST /api/articles/:article_id/comments', () => {
     });
 })
 
-describe.only('/api/users', () => {
+describe('/api/users', () => {
     it('should respond with an array of topic objects ', () => {
         return request(app).get('/api/users')
         .expect(200)

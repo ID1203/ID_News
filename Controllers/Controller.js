@@ -17,7 +17,8 @@ function getEndpoints(req, res, next) {
 }
 
 function getArticles(req, res, next){
-    model.fetchAllArticles()
+    const { topic } = req.query;
+    model.fetchAllArticles(topic)
     .then((articles) => {
         res.status(200).send({ articles });
     })

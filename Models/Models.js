@@ -41,7 +41,15 @@ exports.festchArticleCommentsById = (article_id) => {
         return result.rows
     })
 }
-exports.fetchAllArticles = () => {
+exports.fetchAllArticles = (topic) => {
+
+    if(topic){
+        return db.query('SELECT * FROM articles WHERE topic = $1;',
+        [topic])
+        .then((result) => {
+        return result.rows;
+        })
+    }
     const getQuery = `SELECT 
     articles.article_id,
     articles.title, 
@@ -55,6 +63,8 @@ exports.fetchAllArticles = () => {
     LEFT JOIN comments ON articles.article_id = comments.article_id
     GROUP BY articles.article_id
     ORDER BY articles.created_at DESC`
+
+
     return db.query(getQuery)
     .then((result) => {
         return result.rows;
