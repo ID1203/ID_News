@@ -62,7 +62,6 @@ function postArticleComments(req, res, next) {
 function patchArticlebyId(req, res, next){
     const { article_id } = req.params
     const newVotes  = req.body.incVote
-    console.log(article_id, newVotes);
     model.updateArticles(newVotes, article_id)
     .then((result) => {
         res.status(201).send(result)

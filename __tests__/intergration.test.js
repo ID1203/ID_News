@@ -209,7 +209,7 @@ describe('POST /api/articles/:article_id/comments', () => {
 })
 
 
-describe('PATCH /api/articles/:article_id', () => {
+describe.only('PATCH /api/articles/:article_id', () => {
     it('should return comment with data provided in body ', () => {
         const newVote = { incVote: 1}
         return request(app).patch('/api/articles/3')
@@ -217,8 +217,8 @@ describe('PATCH /api/articles/:article_id', () => {
         .expect(201)
         .then((response) => {
             console.log(response.body);
-            expect(response.body).toHaveProperty('votes')
-            
+            expect(response.body).toHaveProperty('votes', 1)
+            expect(response.body).toHaveProperty('article_id', 3)
         })
     });
     it('should return comment with data provided in body ', () => {
