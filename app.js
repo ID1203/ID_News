@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const { getTopics, getEndpoints, getArticlesByID, getArticles, getArticleCommentsById, postArticleComments } = require('./Controllers/Controller');
+const { getTopics, getEndpoints, getArticlesByID, getArticles, getArticleCommentsById, postArticleComments, getUsers } = require('./Controllers/Controller');
 
 const erroHandler = require("./Controllers/Error.Controller");
 
@@ -19,6 +19,8 @@ app.post('/api/articles/:article_id/comments', postArticleComments)
 app.get('/api/articles/:article_id/comments', getArticleCommentsById)
 
 app.get('/api/articles', getArticles)
+
+app.get('/api/users', getUsers)
 
 app.all('/*', (req, res, next) => {
     return res.status(404).send({ msg: "Not Found" });
