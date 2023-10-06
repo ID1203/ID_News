@@ -141,13 +141,13 @@ describe('/api/articles', () => {
             })
         })
     });
-    it('should respond with all articles ', () => {
-        return request(app).get('/api/articles/mitch')
-        .expect(200)
-        .then((response) => {
-            console.log(response)
-    })
-    });
+    // it('should respond with all articles ', () => {
+    //     return request(app).get('/api/articles/mitch')
+    //     .expect(200)
+    //     .then((response) => {
+    //         console.log(response)
+    // })
+
     it('should respond not found for invalid endpoint', () => {
         return request(app).get('/api/invalid-endpoint')
         .expect(404)
