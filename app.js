@@ -9,7 +9,8 @@ const {
     getArticleCommentsById,
     postArticleComments, 
     patchArticlebyId,
-    getUsers
+    getUsers,
+    deleteComment
 } = require('./Controllers/Controller');
 
 const erroHandler = require("./Controllers/Error.Controller");
@@ -28,6 +29,9 @@ app.post('/api/articles/:article_id/comments', postArticleComments)
 app.get('/api/articles/:article_id/comments', getArticleCommentsById)
 
 app.get('/api/articles', getArticles)
+
+
+app.delete('/api/comments/:comment_id', deleteComment)
 
 app.patch('/api/articles/:article_id', patchArticlebyId )
 
