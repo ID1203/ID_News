@@ -211,19 +211,18 @@ describe('POST /api/articles/:article_id/comments', () => {
 })
 
 
-describe.only('PATCH /api/articles/:article_id', () => {
+describe('PATCH /api/articles/:article_id', () => {
     it('should return comment with data provided in body ', () => {
         const newVote = { incVote: 1}
         return request(app).patch('/api/articles/3')
         .send(newVote)
         .expect(201)
         .then((response) => {
-            console.log(response.body);
             expect(response.body).toHaveProperty('votes', 1)
             expect(response.body).toHaveProperty('article_id', 3)
         })
     });
-    it('should return comment with data provided in body ', () => {
+    it('PATCH:400 sends an appropriate status and error message when given invalid artcile_id ', () => {
         const newVote = { incVote: 1}
         return request(app)
         .patch('/api/articles/banana')
@@ -234,7 +233,7 @@ describe.only('PATCH /api/articles/:article_id', () => {
             
         })
     });
-    it('POST:404 sends an appropriate status and error message when given no id', () => {
+    it('PATCH:404 sends an appropriate status and error message when given no id', () => {
         const newVote = { incVote: 1}
         return request(app)
         .patch('/api/articles/')
@@ -244,10 +243,10 @@ describe.only('PATCH /api/articles/:article_id', () => {
             expect(response.body.msg).toBe('Not Found');
         });
     });
-    it('POST:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
+    it('PATCH:404 sends an appropriate status and error message when given a valid but non-existent id', () => {
         const newVote = { incVote: 1}
         return request(app)
-        .patch('/api/articles/10000/comments')
+        .patch('/api/articles/10000')
         .send(newVote)
         .expect(404)
         .then((response) => {

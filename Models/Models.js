@@ -66,7 +66,7 @@ exports.updateArticles = (newNote, article_id) => {
     [newNote, article_id])
     .then((result) => {
         if (result.rows.length === 0) {
-            return Promise.reject({ status: 404, msg: "article does not exist" })
+            return Promise.reject({ status: 404, msg: "Not Found" })
         }
         return result.rows[0]
     })

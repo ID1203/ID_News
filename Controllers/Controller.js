@@ -1,7 +1,5 @@
 const model = require("../Models/Models");
 
-
-
 function getTopics(req, res, next){
     model.fetchTopics()
     .then((topics) => {
@@ -59,7 +57,6 @@ function postArticleComments(req, res, next) {
     })
 }
 
-
 function patchArticlebyId(req, res, next){
     const { article_id } = req.params
     const newVotes  = req.body.incVote
@@ -69,7 +66,7 @@ function patchArticlebyId(req, res, next){
       }).catch((err) => {
         next(err)
     })
-
+}
 function getUsers(req, res, next){
     model.fetchusers()
     .then((users) => {
@@ -82,6 +79,3 @@ function getUsers(req, res, next){
 
 
 module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById, patchArticlebyId, getUsers }
-
-
-
