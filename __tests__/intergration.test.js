@@ -210,7 +210,7 @@ describe('POST /api/articles/:article_id/comments', () => {
     });
 })
 
-describe.only('/api/users', () => {
+describe('/api/users', () => {
     it('should respond with an array of topic objects ', () => {
         return request(app).get('/api/users')
         .expect(200)
