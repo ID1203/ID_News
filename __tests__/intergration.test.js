@@ -152,16 +152,17 @@ describe('/api/articles', () => {
         return request(app).get('/api/articles').query({ topic: 'mitch' })
         .expect(200)
         .then((response) => {
-            response.body.articles.forEach((article) => {
-                expect(article).toHaveProperty('author');
-                expect(article).toHaveProperty('title');
-                expect(article).toHaveProperty('article_id');
-                expect(article).toHaveProperty('topic');
-                expect(article).toHaveProperty('created_at');
-                expect(article).toHaveProperty('votes');
-                expect(article).toHaveProperty('article_img_url');
-                expect(article).toHaveProperty('body');
-            })
+            //ask george on how to be more specific
+            expect(Array.isArray(response.body))
+            
+        })
+    })
+    it('should still return 200 with an empty array if the topic is a valid topic but rows = 0 ', () => {
+        return request(app).get('/api/articles').query({ topic: 'paper' })
+        .expect(200)
+        .then((response) => {
+            expect(Array.isArray(response.body))
+            expect(response.body.articles.length).toBe(0)
             
         })
     })

@@ -43,13 +43,18 @@ exports.festchArticleCommentsById = (article_id) => {
 }
 exports.fetchAllArticles = (topic) => {
     if(topic){
-        return db.query('SELECT * FROM articles WHERE topic = $1;',
-        [topic])
+        return db.query('SELECT * FROM topics')
         .then((result) => {
-            if (result.rows.length === 0) {
-                return Promise.reject({ status: 404, msg: "Not Found" })
+            const realTopic = result.rows.some(item => item.slug === topic)
+            if(realTopic){
+                return db.query('SELECT * FROM articles WHERE topic = $1;',
+                [topic])
+                .then((result) => {
+                    return result.rows;
+                })
             }
-        return result.rows;
+            return Promise.reject({ status: 404, msg: "Not Found" })
+            
         })
     }
     const getQuery = `SELECT 
