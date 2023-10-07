@@ -159,6 +159,32 @@ describe('/api/articles', () => {
             expect(response.body.msg).toBe('Not Found')
         })
     });
+    it('should respond with all articles based on topic given in query ', () => {
+        return request(app).get('/api/articles').query({ topic: 'mitch' })
+        .expect(200)
+        .then((response) => {
+            //ask george on how to be more specific
+            expect(Array.isArray(response.body))
+            
+        })
+    })
+    it('should still return 200 with an empty array if the topic is a valid topic but rows = 0 ', () => {
+        return request(app).get('/api/articles').query({ topic: 'paper' })
+        .expect(200)
+        .then((response) => {
+            expect(Array.isArray(response.body))
+            expect(response.body.articles.length).toBe(0)
+            
+        })
+    })
+    it('should respond not found when passed invalid topic ', () => {
+        return request(app).get('/api/articles').query({ topic: 'Isaac' })
+        .expect(404)
+        .then((response) => {
+            expect(response.body.msg).toBe('Not Found')
+        })
+    })
+
 })      
 
 
@@ -220,6 +246,7 @@ describe('POST /api/articles/:article_id/comments', () => {
         });
     });
 })
+
 
 describe('DELETE /api/comments/:comment_id', () => {
     it('should delete artciles by id ', () => {
@@ -294,7 +321,6 @@ describe('PATCH /api/articles/:article_id', () => {
         });
     });
 })
-
 
 describe('/api/users', () => {
     it('should respond with an array of topic objects ', () => {
