@@ -1,6 +1,4 @@
 const model = require("../Models/Models");
-const { response } = require("../app");
-
 
 function getTopics(req, res, next){
     model.fetchTopics()
@@ -60,15 +58,37 @@ function postArticleComments(req, res, next) {
     })
 }
 
+function deleteComment(req, res, next){
+    const { comment_id } = req.params
+   model.deleteCommentById(comment_id)
+   .then(() => {
+    res.status(204).send();
+   })
+   .catch((err) => {
+    next(err)
+   })
+}
+
+function patchArticlebyId(req, res, next){
+    const { article_id } = req.params
+    const newVotes  = req.body.incVote
+    model.updateArticles(newVotes, article_id)
+    .then((result) => {
+        res.status(201).send(result)
+      }).catch((err) => {
+        next(err)
+    })
+}
 function getUsers(req, res, next){
     model.fetchusers()
     .then((users) => {
         res.status(200).send({ users });
+
     }).catch((err) => {
         next(err)
     })
 }
 
-module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById, getUsers }
+module.exports = { getTopics, getEndpoints, getArticlesByID, postArticleComments, getArticles, getArticleCommentsById, patchArticlebyId, getUsers, deleteComment }
 
 
