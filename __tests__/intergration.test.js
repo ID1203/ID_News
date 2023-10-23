@@ -187,7 +187,6 @@ describe('/api/articles', () => {
 
 })      
 
-
 describe('POST /api/articles/:article_id/comments', () => {
     it('should return comment with data provided in body ', () => {
         const comment = { username: 'butter_bridge', body: 'yay it worked' }
